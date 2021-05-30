@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kabab/screens/map_screen.dart';
+
 import 'package:kabab/screens/single_category_screen.dart';
 
 class CategoryItem extends StatelessWidget {
@@ -51,6 +53,33 @@ class CategoryItem extends StatelessWidget {
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 20),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 5,
+                bottom: 10,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        fullscreenDialog: true,
+                        builder: (ctx) => MapScreen(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.black54,
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.location_on,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
               )
