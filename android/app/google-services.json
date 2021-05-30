@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "742541430270",
+    "project_id": "kabab-b464b",
+    "storage_bucket": "kabab-b464b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742541430270:android:06ccd7b6756d768b5684af",
+        "android_client_info": {
+          "package_name": "com.example.kabab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "742541430270-710aquqd59j3a6e6id27rgpq7nsetcm0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOMh2vgt8pOGiGgpVo0aX6PGEHZWWj2Xs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "742541430270-710aquqd59j3a6e6id27rgpq7nsetcm0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
