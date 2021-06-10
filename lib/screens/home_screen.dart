@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kabab/providers/auth.dart';
+import 'package:kabab/providers/cart.dart';
 import 'package:kabab/widgets/appDrawer.dart';
+import 'package:kabab/widgets/badge.dart';
 import 'package:kabab/widgets/categories_list.dart';
 import 'package:provider/provider.dart';
 
@@ -22,40 +23,48 @@ class HomeScreen extends StatelessWidget {
             IconButton(
                 padding: EdgeInsets.all(0),
                 icon: Icon(
-                  Icons.shopping_cart,
+                  Icons.notification_important,
                 ),
-                onPressed: () {
-                  Navigator.of(context).pushNamed(CartScreen1.routeName);
-                }),
-            IconButton(
+                onPressed: () {}),
+            Consumer<Cart>(
+              builder: (ctx, cart, ch) =>
+                  Badge(child: ch, value: cart.cartList.length.toString()),
+              child: IconButton(
                 padding: EdgeInsets.all(0),
-                icon: Icon(Icons.notification_important),
+                icon: Icon(Icons.shopping_cart),
                 onPressed: () {
                   Navigator.of(context).pushNamed(CartScreen1.routeName);
-                }),
+                },
+              ),
+            ),
           ],
         ),
         leadingWidth: double.infinity,
         actions: [
-          DropdownButton(
-            icon: Icon(
-              Icons.more_vert,
-              color: Colors.black,
-              size: 30,
-            ),
-            underline: Container(
-              color: Colors.amber,
-            ),
-            items: [
-              DropdownMenuItem(
-                child: Icon(Icons.exit_to_app),
-                value: 'Logout',
-              )
-            ],
-            onChanged: (_) {
-              Provider.of<Auth>(context, listen: false).logout();
-            },
-          ),
+          // DropdownButton(
+          //   icon: Icon(
+          //     Icons.more_vert,
+          //     color: Colors.black,
+          //     size: 30,
+          //   ),
+          //   underline: Container(
+          //     color: Colors.amber,
+          //   ),
+          //   items: [
+          //     DropdownMenuItem(
+          //       child: Row(
+          //         children: [
+          //           Text('تسجيل الخروج '),
+          //           Icon(Icons.exit_to_app),
+          //         ],
+          //       ),
+          //       value: 'Logout',
+          //     )
+          //   ],
+          //   onChanged: (_) {
+          //     //  Provider.of<Auth>(context, listen: false).logout();
+          //   },
+          // ),
         ],
         flexibleSpace: Container(
           decoration: BoxDecoration(

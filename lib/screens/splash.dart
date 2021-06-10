@@ -1,224 +1,163 @@
-// // import these Packages in pubspec.yaml file.
-// // dependencies:
-// //
-// //   animated_text_kit: ^4.1.1
-
-// import 'package:animated_text_kit/animated_text_kit.dart';
-// import 'package:flutter/material.dart';
 // import 'dart:async';
+// import 'package:flutter/material.dart';
+// import 'package:kabab/providers/auth.dart';
+// import 'package:kabab/screens/auth_screen.dart';
+// import 'package:kabab/screens/home_screen.dart';
+// import 'package:provider/provider.dart';
 
-// class MyCustomWidget extends StatefulWidget {
+// class MyCustomSplashScreen extends StatefulWidget {
+//   static const routeName = '/custom-splash';
 //   @override
-//   _MyCustomWidgetState createState() => _MyCustomWidgetState();
+//   _MyCustomSplashScreenState createState() => _MyCustomSplashScreenState();
 // }
 
-// class _MyCustomWidgetState extends State<MyCustomWidget> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//           children: [
-//             Text(
-//               'Suppose this is an app in your Phone\'s Screen page.',
-//               textAlign: TextAlign.center,
-//               style: TextStyle(
-//                 fontSize: 17,
-//                 fontWeight: FontWeight.bold,
-//               ),
-//             ),
-//             OpenContainer(
-//               closedBuilder: (_, openContainer) {
-//                 return Container(
-//                   height: 80,
-//                   width: 80,
-//                   child: Center(
-//                     child: Text(
-//                       'App Logo',
-//                       style: TextStyle(
-//                         fontWeight: FontWeight.bold,
-//                       ),
-//                     ),
-//                   ),
-//                 );
-//               },
-//               // openColor: Colors.white,
-//               // closedElevation: 20,
-//               closedShape: RoundedRectangleBorder(
-//                   borderRadius: BorderRadius.circular(20)),
-//               transitionDuration: Duration(milliseconds: 700),
-//               openBuilder: (_, closeContainer) {
-//                 return SecondPage();
-//               },
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+// class _MyCustomSplashScreenState extends State<MyCustomSplashScreen>
+//     with TickerProviderStateMixin {
+//   double _fontSize = 2;
+//   double _containerSize = 1.5;
+//   double _textOpacity = 0.0;
+//   double _containerOpacity = 0.0;
 
-// class SecondPage extends StatefulWidget {
-//   @override
-//   _SecondPageState createState() => _SecondPageState();
-// }
+//   AnimationController _controller;
+//   Animation<double> animation1;
 
-// class _SecondPageState extends State<SecondPage> {
 //   @override
 //   void initState() {
 //     super.initState();
 
-//     Timer(Duration(milliseconds: 400), () {
+//     _controller =
+//         AnimationController(vsync: this, duration: Duration(seconds: 1));
+
+//     animation1 = Tween<double>(begin: 40, end: 20).animate(CurvedAnimation(
+//         parent: _controller, curve: Curves.fastLinearToSlowEaseIn))
+//       ..addListener(() {
+//         setState(() {
+//           _textOpacity = 1.0;
+//         });
+//       });
+
+//     _controller.forward();
+
+//     Timer(Duration(seconds: 2), () {
 //       setState(() {
-//         _a = true;
+//         _fontSize = 1.06;
 //       });
 //     });
-//     Timer(Duration(milliseconds: 400), () {
+
+//     Timer(Duration(seconds: 2), () {
 //       setState(() {
-//         _b = true;
+//         _containerSize = 2;
+//         _containerOpacity = 1;
 //       });
 //     });
-//     Timer(Duration(milliseconds: 1300), () {
+//     Timer(Duration(seconds: 4), () {
 //       setState(() {
-//         _c = true;
-//       });
-//     });
-//     Timer(Duration(milliseconds: 1700), () {
-//       setState(() {
-//         _e = true;
-//       });
-//     });
-//     Timer(Duration(milliseconds: 3400), () {
-//       setState(() {
-//         _d = true;
-//       });
-//     });
-//     Timer(Duration(milliseconds: 3850), () {
-//       setState(() {
-//         Navigator.of(context).pushReplacement(
-//           ThisIsFadeRoute(
-//             route: ThirdPage(),
-//           ),
-//         );
+//         Provider.of<Auth>(context, listen: false).tryAutoLogin().then((value) {
+//           print(value);
+//           return value == false
+//               ? Navigator.of(context).pushReplacement(
+//                   MaterialPageRoute(
+//                     builder: (ctx) => AuthScreen(),
+//                   ),
+//                 )
+//               : Navigator.of(context).pushReplacement(
+//                   MaterialPageRoute(
+//                     builder: (ctx) => HomeScreen(),
+//                   ),
+//                 );
+//         });
 //       });
 //     });
 //   }
 
-//   bool _a = false;
-//   bool _b = false;
-//   bool _c = false;
-//   bool _d = false;
-//   bool _e = false;
-
 //   @override
 //   void dispose() {
+//     _controller.dispose();
 //     super.dispose();
 //   }
 
 //   @override
 //   Widget build(BuildContext context) {
-//     double _h = MediaQuery.of(context).size.height;
-//     double _w = MediaQuery.of(context).size.width;
+//     double _width = MediaQuery.of(context).size.width;
+//     double _height = MediaQuery.of(context).size.height;
+
 //     return Scaffold(
-//       backgroundColor: Colors.black,
-//       body: Center(
-//         child: Column(
-//           children: [
-//             AnimatedContainer(
-//               duration: Duration(milliseconds: _d ? 900 : 2500),
-//               curve: _d ? Curves.fastLinearToSlowEaseIn : Curves.elasticOut,
-//               height: _d
-//                   ? 0
-//                   : _a
-//                       ? _h / 2
-//                       : 20,
-//               width: 20,
-//               // color: Colors.deepPurpleAccent,
-//             ),
-//             AnimatedContainer(
-//               duration: Duration(
-//                   seconds: _d
-//                       ? 1
-//                       : _c
-//                           ? 2
-//                           : 0),
-//               curve: Curves.fastLinearToSlowEaseIn,
-//               height: _d
-//                   ? _h
-//                   : _c
-//                       ? 80
-//                       : 20,
-//               width: _d
-//                   ? _w
-//                   : _c
-//                       ? 200
-//                       : 20,
-//               decoration: BoxDecoration(
-//                   color: _b ? Colors.white : Colors.transparent,
-//                   // shape: _c? BoxShape.rectangle : BoxShape.circle,
-//                   borderRadius:
-//                       _d ? BorderRadius.only() : BorderRadius.circular(30)),
-//               child: Center(
-//                 child: _e
-//                     ? AnimatedTextKit(
-//                         totalRepeatCount: 1,
-//                         animatedTexts: [
-//                           FadeAnimatedText(
-//                             'APP NAME',
-//                             duration: Duration(milliseconds: 1700),
-//                             textStyle: TextStyle(
-//                               fontSize: 30,
-//                               fontWeight: FontWeight.w700,
-//                             ),
-//                           ),
-//                         ],
-//                       )
-//                     : SizedBox(),
+//       backgroundColor: Color.fromRGBO(255, 202, 6, 1),
+//       body: Stack(
+//         children: [
+//           Column(
+//             children: [
+//               AnimatedContainer(
+//                   duration: Duration(milliseconds: 2000),
+//                   curve: Curves.fastLinearToSlowEaseIn,
+//                   height: _height / _fontSize),
+//               AnimatedOpacity(
+//                 duration: Duration(milliseconds: 1000),
+//                 opacity: _textOpacity,
+//                 child: Text(
+//                   'Kebab Station',
+//                   style: TextStyle(
+//                       color: Colors.black,
+//                       fontWeight: FontWeight.bold,
+//                       fontSize: animation1.value,
+//                       letterSpacing: 8,
+//                       wordSpacing: 10),
+//                 ),
 //               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class ThisIsFadeRoute extends PageRouteBuilder {
-//   final Widget page;
-//   final Widget route;
-
-//   ThisIsFadeRoute({this.page, this.route})
-//       : super(
-//           pageBuilder: (
-//             BuildContext context,
-//             Animation<double> animation,
-//             Animation<double> secondaryAnimation,
-//           ) =>
-//               page,
-//           transitionsBuilder: (
-//             BuildContext context,
-//             Animation<double> animation,
-//             Animation<double> secondaryAnimation,
-//             Widget child,
-//           ) =>
-//               FadeTransition(
-//             opacity: animation,
-//             child: route,
+//             ],
 //           ),
-//         );
-// }
-
-// class ThirdPage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Go Back'),
-//         centerTitle: true,
-//         brightness: Brightness.dark,
-//         backgroundColor: Colors.black,
+//           Center(
+//             child: AnimatedOpacity(
+//               duration: Duration(milliseconds: 3000),
+//               curve: Curves.fastLinearToSlowEaseIn,
+//               opacity: _containerOpacity,
+//               child: AnimatedContainer(
+//                   duration: Duration(milliseconds: 3000),
+//                   curve: Curves.fastLinearToSlowEaseIn,
+//                   height: _width / _containerSize,
+//                   width: _width / _containerSize,
+//                   alignment: Alignment.center,
+//                   decoration: BoxDecoration(
+//                     color: Color.fromRGBO(255, 202, 6, 1),
+//                     borderRadius: BorderRadius.circular(30),
+//                     border: Border.all(color: Colors.white),
+//                   ),
+//                   child: Image.asset(
+//                     'assets/images/l.jpg',
+//                     fit: BoxFit.cover,
+//                   )
+//                   // child: Text(
+//                   //   'YOUR APP\'S LOGO',
+//                   // ),
+//                   ),
+//             ),
+//           ),
+//         ],
 //       ),
 //     );
 //   }
 // }
+
+// // class PageTransition extends PageRouteBuilder {
+// //   final Widget page;
+
+// //   PageTransition(this.page)
+// //       : super(
+// //           pageBuilder: (context, animation, anotherAnimation) => page,
+// //           transitionDuration: Duration(milliseconds: 2000),
+// //           transitionsBuilder: (context, animation, anotherAnimation, child) {
+// //             animation = CurvedAnimation(
+// //               curve: Curves.fastLinearToSlowEaseIn,
+// //               parent: animation,
+// //             );
+// //             return Align(
+// //               alignment: Alignment.bottomCenter,
+// //               child: SizeTransition(
+// //                 sizeFactor: animation,
+// //                 child: page,
+// //                 axisAlignment: 0,
+// //               ),
+// //             );
+// //           },
+// //         );
+// // }

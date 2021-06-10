@@ -22,6 +22,7 @@ class _SingleCategoryScreenState extends State<SingleCategoryScreen> {
       title = args['title'];
       image = args['image'];
     }
+    init = false;
   }
 
   @override

@@ -7,8 +7,7 @@ class MapScreen extends StatefulWidget {
   final bool isSelecting;
 
   MapScreen({
-    this.initialLocation =
-        const PlaceLocation(latitude: 37.422, langitude: -122.084),
+    this.initialLocation,
     this.isSelecting = false,
   });
 
@@ -28,7 +27,7 @@ class _MapScreenState extends State<MapScreen> {
           initialCameraPosition: CameraPosition(
             target: LatLng(
               widget.initialLocation.latitude,
-              widget.initialLocation.langitude,
+              widget.initialLocation.longitude,
             ),
             zoom: 16,
           ),
@@ -38,10 +37,11 @@ class _MapScreenState extends State<MapScreen> {
               markerId: MarkerId('m1'),
               position: LatLng(
                 widget.initialLocation.latitude,
-                widget.initialLocation.langitude,
+                widget.initialLocation.longitude,
               ),
             ),
           }),
     );
   }
 }
+//

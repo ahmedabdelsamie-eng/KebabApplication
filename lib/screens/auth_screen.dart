@@ -3,6 +3,7 @@ import 'package:kabab/models/http_exception.dart';
 import 'package:kabab/providers/auth.dart';
 import 'package:kabab/widgets/clippath.dart';
 import 'package:provider/provider.dart';
+import 'package:kabab/screens/home_screen.dart';
 
 enum AuthMode { Signup, Login }
 
@@ -118,9 +119,15 @@ class _AuthCardState extends State<AuthCard>
       if (_authMode == AuthMode.Login) {
         await Provider.of<Auth>(context, listen: false)
             .login(_authData['email'], _authData['password']);
+
+        Navigator.pushNamedAndRemoveUntil(
+            context, HomeScreen.routeName, (_) => false);
       } else {
         await Provider.of<Auth>(context, listen: false)
             .signUP(_authData['email'], _authData['password']);
+
+        Navigator.pushNamedAndRemoveUntil(
+            context, HomeScreen.routeName, (_) => false);
       }
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';

@@ -14,6 +14,7 @@ class CategoriesList extends StatelessWidget {
               id: category.id,
               title: category.title,
               image: category.image,
+              catLocation: category.catLocation,
             ),
           )
           .toList(),

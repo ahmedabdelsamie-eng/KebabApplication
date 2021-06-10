@@ -1,10 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:kabab/models/http_exception.dart';
+import 'package:kabab/screens/auth_screen.dart';
+
+import 'package:kabab/screens/splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../main.dart';
 
 class Auth with ChangeNotifier {
   String _token;
@@ -103,6 +108,7 @@ class Auth with ChangeNotifier {
     notifyListeners();
     final prefs = await SharedPreferences.getInstance();
     //prefs.remove('userData);
+
     prefs.clear();
   }
 
@@ -111,9 +117,14 @@ class Auth with ChangeNotifier {
       _authTimer.cancel();
     }
     final timeExpiry = _expriyDate.difference(DateTime.now()).inSeconds;
-    _authTimer = Timer(Duration(seconds: timeExpiry), logout);
+    _authTimer = Timer(Duration(seconds: timeExpiry), () {
+      print('i came here');
+      logout();
+      //  navService.pushNamedAndRemoveUntil(AuthScreen.routeName);
+      //Get.offAll(MyCustomSplashScreen.routeName);
+      print('test get');
+      // Get.to(AuthScreen());
+      Get.offAll(() => MyCustomSplashScreen());
+    });
   }
 }
-
-///نزل شاردبريفرنسز
-//

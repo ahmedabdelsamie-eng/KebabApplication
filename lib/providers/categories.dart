@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:kabab/models/category.dart';
+import 'package:kabab/models/place.dart';
 import 'package:kabab/models/sectionModelItem.dart';
 
 class Categories with ChangeNotifier {
@@ -8,6 +9,7 @@ class Categories with ChangeNotifier {
       id: 'c1',
       title: 'المحمدي',
       image: 'assets/images/p.jpeg',
+      catLocation: PlaceLocation(longitude: 31.035990, latitude: 31.374730),
       map: {
         'mokablat': [
           SectionModelItem(
@@ -69,6 +71,7 @@ class Categories with ChangeNotifier {
       id: 'c2',
       title: 'الصباحى',
       image: 'assets/images/pro.jpg',
+      catLocation: PlaceLocation(longitude: 31.026240, latitude: 31.367240),
       map: {
         'mokablat': [
           SectionModelItem(
@@ -120,8 +123,9 @@ class Categories with ChangeNotifier {
     ),
     Category(
       id: 'c3',
-      title: 'الحلبي',
+      title: 'البرنس',
       image: 'assets/images/shaw.jpg',
+      catLocation: PlaceLocation(longitude: 30.074290, latitude: 31.235710),
       map: {
         'mokablat': [
           SectionModelItem(
@@ -167,6 +171,7 @@ class Categories with ChangeNotifier {
       id: 'c4',
       title: 'الدمشقي',
       image: 'assets/images/crip.jpeg',
+      catLocation: PlaceLocation(longitude: 30.074290, latitude: 31.235710),
       map: {
         'mokablat': [
           SectionModelItem(
@@ -208,6 +213,7 @@ class Categories with ChangeNotifier {
       id: 'c5',
       title: 'الحاتي',
       image: 'assets/images/fore.jpg',
+      catLocation: PlaceLocation(longitude: 30.074290, latitude: 31.235710),
       map: {
         'mokablat': [
           SectionModelItem(

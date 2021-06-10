@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kabab/models/place.dart';
 import 'package:kabab/screens/map_screen.dart';
 
 import 'package:kabab/screens/single_category_screen.dart';
@@ -7,7 +8,12 @@ class CategoryItem extends StatelessWidget {
   final String id;
   final String title;
   final String image;
-  CategoryItem({@required this.id, @required this.title, @required this.image});
+  final PlaceLocation catLocation;
+  CategoryItem(
+      {@required this.id,
+      @required this.title,
+      @required this.image,
+      @required this.catLocation});
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -17,21 +23,20 @@ class CategoryItem extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          Navigator.of(context)
-              .pushNamed(SingleCategoryScreen.routeName, arguments: {
-            'id': id,
-            'title': title,
-            'image': image,
-          });
+          Navigator.of(context).pushNamed(
+            SingleCategoryScreen.routeName,
+            arguments: {
+              'id': id,
+              'title': title,
+              'image': image,
+            },
+          );
         },
         child: GridTile(
           child: Stack(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(15)
-                    // topLeft: Radius.circular(15),
-                    // topRight: Radius.circular(15),
-                    ),
+                borderRadius: BorderRadius.all(Radius.circular(15)),
                 child: Image.asset(
                   image,
                   width: double.infinity,
@@ -64,7 +69,9 @@ class CategoryItem extends StatelessWidget {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         fullscreenDialog: true,
-                        builder: (ctx) => MapScreen(),
+                        builder: (ctx) => MapScreen(
+                          initialLocation: catLocation,
+                        ),
                       ),
                     );
                   },
