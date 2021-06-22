@@ -7,21 +7,28 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:kabab/providers/auth.dart';
-import 'package:kabab/providers/cart.dart';
-import 'package:kabab/providers/notification.dart';
-import 'package:kabab/screens/auth_screen.dart';
-import 'package:kabab/screens/cart_screen1.dart';
-import 'package:kabab/screens/cart_screen2.dart';
-import 'package:kabab/screens/home_screen.dart';
-import 'package:kabab/screens/language_screen.dart';
-import 'package:kabab/screens/locations_screen.dart';
-import 'package:kabab/screens/notifications_screen.dart';
-import 'package:kabab/screens/orders_screen.dart';
-import 'package:kabab/screens/section_item_details_screen.dart';
-import 'package:kabab/screens/single_category_screen.dart';
+import 'package:kabab/customer/models/user_model.dart';
+import 'package:kabab/customer/providers/notification_resources.dart';
+import 'package:kabab/customer/providers/order_resources.dart';
+import 'package:kabab/customer/providers/restuarants_resources.dart';
+import 'package:kabab/customer/providers/users_resources.dart';
+import 'package:kabab/customer/screens/cart_screen.dart';
+import 'package:kabab/customer/screens/forget_password_screen.dart';
+import 'package:kabab/customer/screens/search_part.dart';
+import 'package:kabab/customer/screens/order_submit_screen.dart';
+import 'package:kabab/customer/screens/orders_screen.dart';
+import 'package:kabab/customer/screens/department_product_details_screen.dart';
+import 'package:kabab/customer/screens/single_restuarant_screen.dart';
 import 'package:kabab/translations/codegen_loader.g.dart';
 import 'package:provider/provider.dart';
+
+import 'customer/providers/auth.dart';
+import 'customer/providers/cart_resources.dart';
+import 'customer/screens/auth_screen.dart';
+import 'customer/screens/cart_screen1.dart';
+import 'customer/screens/home_screen.dart';
+import 'customer/screens/language_screen.dart';
+import 'customer/screens/notifications_screen.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
@@ -77,43 +84,62 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => Cart(),
-        ),
-        ChangeNotifierProvider(
           create: (ctx) => Auth(),
         ),
+        ChangeNotifierProxyProvider<Auth, Restuarants>(
+          update: (ctx, auth, previousRestuarants) => Restuarants(
+              auth.token,
+              previousRestuarants == null
+                  ? []
+                  : previousRestuarants.restuarants),
+        ),
+        ChangeNotifierProxyProvider<Auth, Orders>(
+          update: (ctx, auth, previousOrders) => Orders(auth.token, auth.userId,
+              previousOrders == null ? [] : previousOrders.orderList),
+        ),
+        ChangeNotifierProxyProvider<Auth, NotificationResources>(
+          update: (ctx, auth, previousNotifications) => NotificationResources(
+              auth.token,
+              previousNotifications == null
+                  ? []
+                  : previousNotifications.notificationList),
+        ),
+        ChangeNotifierProxyProvider<Auth, UsersResources>(
+          update: (ctx, auth, previoususers) => UsersResources(
+              auth.userId, previoususers == null ? [] : previoususers.users),
+        ),
         ChangeNotifierProvider(
-          create: (ctx) => Notificationy(),
+          create: (context) => Cart(),
         ),
       ],
-      child: Consumer<Auth>(
-        builder: (ctx, auth, _) => GetMaterialApp(
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          title: 'Flutter Demo',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primarySwatch: Colors.amber,
-            accentColor: Colors.white,
-            //  accentColorBrightness: Brightness.light
-          ),
-          // '/': MyCustomSplashScreen(),
-          initialRoute: '/',
-          routes: {
-            '/': (ctx) => MyCustomSplashScreen(),
-            HomeScreen.routeName: (ctx) => HomeScreen(),
-            SingleCategoryScreen.routeName: (ctx) => SingleCategoryScreen(),
-            SectionItemDetailsScreen.routeName: (ctx) =>
-                SectionItemDetailsScreen(),
-            CartScreen1.routeName: (ctx) => CartScreen1(),
-            CartScreen2.routeName: (ctx) => CartScreen2(),
-            LanguageScreen.routeName: (ctx) => LanguageScreen(),
-            LocationsScreen.routeName: (ctx) => LocationsScreen(),
-            NotificationsScreen.routeName: (ctx) => NotificationsScreen(),
-            OrdersScreen.routeName: (ctx) => OrdersScreen(),
-          },
+      child: GetMaterialApp(
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.amber,
+          accentColor: Colors.white,
+          //  accentColorBrightness: Brightness.light
         ),
+        // '/': MyCustomSplashScreen(),
+        initialRoute: '/',
+        routes: {
+          '/': (ctx) => MyCustomSplashScreen(),
+          HomeScreen.routeName: (ctx) => HomeScreen(),
+          SingleCategoryScreen.routeName: (ctx) => SingleCategoryScreen(),
+          DepartmentProductDetailsScreen.routeName: (ctx) =>
+              DepartmentProductDetailsScreen(),
+          CartScreen1.routeName: (ctx) => CartScreen1(),
+          CartScreen2.routeName: (ctx) => CartScreen2(),
+          LanguageScreen.routeName: (ctx) => LanguageScreen(),
+          // LocationsScreen.routeName: (ctx) => LocationsScreen(),
+          NotificationsScreen.routeName: (ctx) => NotificationsScreen(),
+          OrdersScreen.routeName: (ctx) => OrdersScreen(),
+          OrderSubmitScreen.routeName: (ctx) => OrderSubmitScreen(),
+          ForgotPassword.routeName: (ctx) => ForgotPassword()
+        },
       ),
     );
   }
@@ -213,7 +239,7 @@ class _MyCustomSplashScreenState extends State<MyCustomSplashScreen>
           Get.offAll(() => NotificationsScreen(), arguments: {
             'title': notification.title,
             'body': notification.body,
-            'date': message.sentTime.toString()
+            'date': message.sentTime
           });
         }
       });
@@ -222,12 +248,10 @@ class _MyCustomSplashScreenState extends State<MyCustomSplashScreen>
         RemoteNotification notification = message.notification;
         AndroidNotification android = message.notification?.android;
         if (notification != null && android != null) {
-          print('bbbbbbbbbbbbbbbbbbbb');
-          // Timer(Duration(seconds: 5), () {
           Get.offAll(() => NotificationsScreen(), arguments: {
             'title': notification.title,
             'body': notification.body,
-            'date': message.sentTime.toString()
+            'date': message.sentTime
           }); // });
         }
       });
@@ -306,66 +330,3 @@ class _MyCustomSplashScreenState extends State<MyCustomSplashScreen>
     );
   }
 }
-/////////////////////
-
-// class MyNot extends StatefulWidget {
-//   static const routeName = '/custom-splash';
-//   @override
-//   _MyNot createState() => _MyNot();
-// }
-
-// class _MyNot extends State<MyNot> {
-//   var init = true;
-//   @override
-//   void didChangeDependencies() {
-//     if (init) {
-//       ///////////////about show notification which sent
-//       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-//         RemoteNotification notification = message.notification;
-//         AndroidNotification android = message.notification?.android;
-//         if (notification != null && android != null) {
-//           flutterLocalNotificationsPlugin.show(
-//               notification.hashCode,
-//               notification.title,
-//               notification.body,
-//               NotificationDetails(
-//                 android: AndroidNotificationDetails(
-//                   channel.id,
-//                   channel.name,
-//                   channel.description,
-//                   color: Colors.amber,
-//                   subText: 'have a nice day.',
-//                   playSound: true,
-//                   icon: '@mipmap/ic_launcher',
-//                 ),
-//               ));
-//           Get.offAll(() => NotificationsScreen(), arguments: {
-//             'title': notification.title,
-//             'body': notification.body,
-//             'date': message.sentTime.toString()
-//           });
-//         }
-//       });
-
-//       FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-//         RemoteNotification notification = message.notification;
-//         AndroidNotification android = message.notification?.android;
-//         if (notification != null && android != null) {
-//           print('bbbbbbbbbbbbbbbbbbbb');
-//           Get.offAll(() => NotificationsScreen(), arguments: {
-//             'title': notification.title,
-//             'body': notification.body,
-//             'date': message.sentTime.toString()
-//           });
-//         }
-//       });
-//     }
-//     init = false;
-//     super.didChangeDependencies();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Text('test');
-//   }
-// }

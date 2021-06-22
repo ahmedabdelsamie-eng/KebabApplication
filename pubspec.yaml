@@ -25,15 +25,17 @@ dependencies:
     sdk: flutter
   firebase_messaging: ^10.0.1
   firebase_core: ^1.2.1
-  flutter_local_notifications: ^6.0.0
+  flutter_local_notifications: any
   easy_localization: ^3.0.0
   carousel_slider: ^3.0.0
   animated_search_bar: ^2.0.0
+  anim_search_bar: ^2.0.2
   animated_text_kit: ^4.2.1
   dots_indicator: ^2.0.0
   http: ^0.13.3
   image_picker: ^0.7.5+2
   provider: ^5.0.0
+  flutter_countdown_timer: ^4.1.0
   animated_button: ^0.2.0
   no_context_navigation: ^1.0.7
   shared_preferences: ^2.0.6
@@ -48,6 +50,8 @@ dependencies:
   google_maps_flutter: ^2.0.6
   get: ^4.1.4
   location: ^4.1.1
+  geocoder: ^0.2.1
+  slimy_card: ^1.0.4
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -58,6 +62,14 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.9.0
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/l.jpg"
+  adaptive_icon_background: "#ffca06"
+  adaptive_icon_foreground: "assets/images/l.jpg"
+
 
 # dependency_overrides:
 #   firebase_core: ^0.5.0
@@ -77,16 +89,44 @@ flutter:
   assets:
     - assets/images/l.jpg
     - assets/images/lo.jpg
-    - assets/images/ll.PNG
-    - assets/images/p.jpeg
-    - assets/images/pro.jpg
-    - assets/images/shaw.jpg
-    - assets/images/fore.jpg
-    - assets/images/crip.jpeg
-    - assets/images/app.jpg
+    - assets/images/sabahy.jpg
+    - assets/images/kaber.jpg
+    - assets/images/hassan.jpg
+    - assets/images/mohamedy.PNG
+    - assets/images/chicken.jpg
+    - assets/images/homos.jpg
+    - assets/images/kababb.png
+    - assets/images/pepsi.jpg
+    - assets/images/ananas.jpg
+    - assets/images/bangar.jpg
+    - assets/images/estik.jpg
+    - assets/images/fata.jpg
+    - assets/images/fatosh.jpg
+    - assets/images/lemon.jpg
+    - assets/images/offermoh1.jpg
+    - assets/images/offermoh2.jpg
+    - assets/images/roman.jpg
+    - assets/images/s1.jpg
+    - assets/images/s2.jpg
+    - assets/images/s3.jpg
+    - assets/images/s4.jpg
+    - assets/images/s5.jpeg
+    - assets/images/s6.jpg
+    - assets/images/shwebs1.jpeg
+    - assets/images/shwebs2.jpg
+    - assets/images/strob.jpg
+    - assets/images/tihina.jpg
+    - assets/images/ziton.jpg
+    - assets/images/mahshy.jpg
+    - assets/images/mombar.jpeg
+    - assets/images/cr1.jpg
+    - assets/images/cr2.jpg
+    - assets/images/cr3.jpg
+    - assets/images/cr4.jpg
+   
     - assets/translations/
-  #   - images/a_dot_ham.jpeg
-
+  
+ 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
